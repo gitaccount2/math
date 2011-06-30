@@ -3,7 +3,7 @@ description: 'Extensions to CommonJS "Math" module'
 
 keywords: ['math']
 
-version: '0.2.0'
+version: require('fs').readFileSync('./VERSION', 'utf8')
 
 author: 'Feisty Studios <math@feistystudios.com> (http://feistystudios.com/)'
 
