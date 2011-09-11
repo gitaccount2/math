@@ -4,9 +4,9 @@ module.exports = Vector3 =
   create: (args) ->
     v = new CONSTRUCTOR args or 3
     
-    Object.defineProperty v, 'x', get: (=> @[0]), set: ((value) => @[0] = value)
-    Object.defineProperty v, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
-    Object.defineProperty v, 'z', get: (=> @[2]), set: ((value) => @[2] = value)
+    # Object.defineProperty v, 'x', get: (=> @[0]), set: ((value) => @[0] = value)
+    # Object.defineProperty v, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
+    # Object.defineProperty v, 'z', get: (=> @[2]), set: ((value) => @[2] = value)
     
     return v
   
@@ -14,43 +14,46 @@ module.exports = Vector3 =
     [out[0], out[1], out[2]] = v
     
     return v
-
+  
   add: (a, b, out) ->
     if not out or a is out
       a[0] += b[0]
       a[1] += b[1]
       a[2] += b[2]
-
+      
       return a
-
-    out[0] = a[0] + b[0]
-    out[1] = a[1] + b[1]
-    out[2] = a[2] + b[2]
-
-    return out
-
+    
+    else
+      out[0] = a[0] + b[0]
+      out[1] = a[1] + b[1]
+      out[2] = a[2] + b[2]
+      
+      return out
+  
   subtract: (a, b, out) ->
     if not out or a is out
       a[0] -= b[0]
       a[1] -= b[1]
       a[2] -= b[2]
-
+      
       return a
-
-    out[0] = a[0] - b[0]
-    out[1] = a[1] - b[1]
-    out[2] = a[2] - b[2]
-    return out
+    
+    else
+      out[0] = a[0] - b[0]
+      out[1] = a[1] - b[1]
+      out[2] = a[2] - b[2]
+      
+      return out
 
   negate: (v, out) ->
     out ?= v
-
+    
     out[0] = -v[0]
     out[1] = -v[1]
     out[2] = -v[2]
-
+    
     return out
-
+  
   scale: (v, k, out) ->
     if not out or v is out
       v[0] *= k
@@ -59,12 +62,13 @@ module.exports = Vector3 =
       
       return v
     
-    out[0] = v[0] * k
-    out[1] = v[1] * k
-    out[2] = v[2] * k
+    else
+      out[0] = v[0] * k
+      out[1] = v[1] * k
+      out[2] = v[2] * k
     
-    return out
-
+      return out
+  
   normalize: (v, out) ->
     out ?= v
     
@@ -128,15 +132,17 @@ module.exports = Vector3 =
       out[0] = 0
       out[1] = 0
       out[2] = 0
+      
       return out
-
-    magnitude = 1 / magnitude
-
-    out[0] = x * magnitude
-    out[1] = y * magnitude
-    out[2] = z * magnitude
-
-    return out
+    
+    else
+      magnitude = 1 / magnitude
+      
+      out[0] = x * magnitude
+      out[1] = y * magnitude
+      out[2] = z * magnitude
+      
+      return out
   
   lerp: (a, b, bias, out) ->
     out ?= a

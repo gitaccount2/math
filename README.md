@@ -17,7 +17,10 @@
 
 Geometrical (matrix, quaternion, vector) extensions to JavaScript's "Math" module
 
-# Modules
+### Installation
+`npm install math`
+
+### Modules
 
 * `Matrix3`
 * `Matrix4`
@@ -25,18 +28,11 @@ Geometrical (matrix, quaternion, vector) extensions to JavaScript's "Math" modul
 * `Vector3`
 * `Quaternion`
 
-# Features
+### Features
 
 * Supports browsers and node.js
 * High-performance (allocation-free, native array)
 * Written in CoffeeScript
 
-# Installation
-`npm install math`
-
-# Inspiration
+### Inspiration
   [glMatrix](http://code.google.com/p/glmatrix/) by Tojiro
-
-# Contributors
-  * Nicholas Kinsey <pyro@feisty.co>
-  * Nathan Rashleigh <margh@feisty.co>

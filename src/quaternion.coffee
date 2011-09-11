@@ -7,10 +7,10 @@ module.exports = Quaternion =
   create: (args) ->
     q = new CONSTRUCTOR args or 4
     
-    Object.defineProperty q, 'x', get: (=> @[0]), set: ((value) => @[0] = value)
-    Object.defineProperty q, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
-    Object.defineProperty q, 'z', get: (=> @[2]), set: ((value) => @[2] = value)
-    Object.defineProperty q, 'w', get: (=> @[3]), set: ((value) => @[3] = value)
+    # Object.defineProperty q, 'x', get: (=> @[0]), set: ((value) => @[0] = value)
+    # Object.defineProperty q, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
+    # Object.defineProperty q, 'z', get: (=> @[2]), set: ((value) => @[2] = value)
+    # Object.defineProperty q, 'w', get: (=> @[3]), set: ((value) => @[3] = value)
     
     return q
   
@@ -27,12 +27,13 @@ module.exports = Quaternion =
       
       return q
     
-    out[0] = x
-    out[1] = y
-    out[2] = z
-    out[3] = -Math.sqrt Math.abs 1.0 - x*x - y*y - z*z
-    
-    return out
+    else
+      out[0] = x
+      out[1] = y
+      out[2] = z
+      out[3] = -Math.sqrt Math.abs 1.0 - x*x - y*y - z*z
+      
+      return out
 
   inverse: (q, out) ->
     if not out or q is out
@@ -41,13 +42,14 @@ module.exports = Quaternion =
       q[2] *= 1
       
       return q
+    
+    else
+      out[0] = -q[0]
+      out[1] = -q[1]
+      out[2] = -q[2]
+      out[3] =  q[3]
 
-    out[0] = -q[0]
-    out[1] = -q[1]
-    out[2] = -q[2]
-    out[3] =  q[3]
-
-    return out
+      return out
   
   length: (q) ->
     [x, y, z, w] = q
@@ -58,9 +60,9 @@ module.exports = Quaternion =
     out ?= q
     
     [x, y, z, w] = q
-
+    
     magnitude = Math.sqrt x * x + y * y + z * z + w * w
-
+    
     if magnitude is 0
       out[0] = 0
       out[1] = 0
@@ -68,7 +70,7 @@ module.exports = Quaternion =
       out[3] = 0
       
       return out
-      
+    
     magnitude = 1 / magnitude
     out[0] = x * magnitude
     out[1] = y * magnitude
@@ -132,61 +134,58 @@ module.exports = Quaternion =
     out[0] = 1 - (yy + zz)
     out[1] = xy - wz
     out[2] = xz + wy
-
+    
     out[3] = xy + wz
     out[4] = 1 - (xx + zz)
     out[5] = yz - wx
-
+    
     out[6] = xz - wy
     out[7] = yz + wx
     out[8] = 1 - (xx + yy)
-
+    
     return out
   
   toMatrix4: (q, out) ->
     out ?= Matrix4.create()
-
-    x = q[0]
-    y = q[1]
-    z = q[2]
-    w = q[3]
-
-    x2 = x + x
-    y2 = y + y
-    z2 = z + z
-
+    
+    [x, y, z, w] = q
+    
+    x2 = x * 2
+    y2 = y * 2
+    z2 = z * 2
+    
     xx = x * x2
     xy = x * y2
     xz = x * z2
-
+    
     yy = y * y2
     yz = y * z2
     zz = z * z2
-
+    
     wx = w * x2
     wy = w * y2
     wz = w * z2
-
+    
     out[0] = 1 - (yy + zz)
     out[1] = xy - wz
     out[2] = xz + wy
     out[3] = 0
-
+    
     out[4] = xy + wz
     out[5] = 1 - (xx + zz)
     out[6] = yz - wx
     out[7] = 0
-
+    
     out[8] = xz - wy
     out[9] = yz + wx
     out[10] = 1 - (xx + yy)
     out[11] = 0
-
+    
     out[12] = 0
     out[13] = 0
     out[14] = 0
     out[15] = 1
-
+    
     return out
   
   slerp: (a, b, bias, out) ->
@@ -196,11 +195,11 @@ module.exports = Quaternion =
     
     dot = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3]
     
-    eps_bias = -1.0 * bias if dot < 0.0
+    eps_bias = -1 * bias if dot < 0
     
-    out[0] = 1.0 - bias * a[0] + eps_bias * b[0]
-    out[1] = 1.0 - bias * a[1] + eps_bias * b[1]
-    out[2] = 1.0 - bias * a[2] + eps_bias * b[2]
-    out[3] = 1.0 - bias * a[3] + eps_bias * b[3]
+    out[0] = 1 - (bias * a[0] + eps_bias * b[0])
+    out[1] = 1 - (bias * a[1] + eps_bias * b[1])
+    out[2] = 1 - (bias * a[2] + eps_bias * b[2])
+    out[3] = 1 - (bias * a[3] + eps_bias * b[3])
     
     return out

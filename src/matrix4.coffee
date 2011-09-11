@@ -4,22 +4,22 @@ module.exports = Matrix4 =
   create: (args) ->
     m = new CONSTRUCTOR args or 16
     
-    Object.defineProperty m, 'm00', get: (=> @[0]),  set: (=> @[0]  = value)
-    Object.defineProperty m, 'm01', get: (=> @[1]),  set: (=> @[1]  = value)
-    Object.defineProperty m, 'm02', get: (=> @[2]),  set: (=> @[2]  = value)
-    Object.defineProperty m, 'm03', get: (=> @[3]),  set: (=> @[3]  = value)
-    Object.defineProperty m, 'm10', get: (=> @[4]),  set: (=> @[4]  = value)
-    Object.defineProperty m, 'm11', get: (=> @[5]),  set: (=> @[5]  = value)
-    Object.defineProperty m, 'm12', get: (=> @[6]),  set: (=> @[6]  = value)
-    Object.defineProperty m, 'm13', get: (=> @[7]),  set: (=> @[7]  = value)
-    Object.defineProperty m, 'm20', get: (=> @[8]),  set: (=> @[8]  = value)
-    Object.defineProperty m, 'm21', get: (=> @[9]),  set: (=> @[9]  = value)
-    Object.defineProperty m, 'm22', get: (=> @[10]), set: (=> @[10] = value)
-    Object.defineProperty m, 'm23', get: (=> @[11]), set: (=> @[11] = value)
-    Object.defineProperty m, 'm30', get: (=> @[12]), set: (=> @[12] = value)
-    Object.defineProperty m, 'm31', get: (=> @[13]), set: (=> @[13] = value)
-    Object.defineProperty m, 'm32', get: (=> @[14]), set: (=> @[14] = value)
-    Object.defineProperty m, 'm33', get: (=> @[15]), set: (=> @[15] = value)
+    # Object.defineProperty m, 'm00', get: (=> @[0]),  set: (=> @[0]  = value)
+    # Object.defineProperty m, 'm01', get: (=> @[1]),  set: (=> @[1]  = value)
+    # Object.defineProperty m, 'm02', get: (=> @[2]),  set: (=> @[2]  = value)
+    # Object.defineProperty m, 'm03', get: (=> @[3]),  set: (=> @[3]  = value)
+    # Object.defineProperty m, 'm10', get: (=> @[4]),  set: (=> @[4]  = value)
+    # Object.defineProperty m, 'm11', get: (=> @[5]),  set: (=> @[5]  = value)
+    # Object.defineProperty m, 'm12', get: (=> @[6]),  set: (=> @[6]  = value)
+    # Object.defineProperty m, 'm13', get: (=> @[7]),  set: (=> @[7]  = value)
+    # Object.defineProperty m, 'm20', get: (=> @[8]),  set: (=> @[8]  = value)
+    # Object.defineProperty m, 'm21', get: (=> @[9]),  set: (=> @[9]  = value)
+    # Object.defineProperty m, 'm22', get: (=> @[10]), set: (=> @[10] = value)
+    # Object.defineProperty m, 'm23', get: (=> @[11]), set: (=> @[11] = value)
+    # Object.defineProperty m, 'm30', get: (=> @[12]), set: (=> @[12] = value)
+    # Object.defineProperty m, 'm31', get: (=> @[13]), set: (=> @[13] = value)
+    # Object.defineProperty m, 'm32', get: (=> @[14]), set: (=> @[14] = value)
+    # Object.defineProperty m, 'm33', get: (=> @[15]), set: (=> @[15] = value)
     
     return m
 
