@@ -1,5 +1,7 @@
 CONSTRUCTOR = Float32Array or Array
 
+Matrix4 = require './matrix4'
+
 module.exports = Matrix3 =
   create: (args) ->
     m = new CONSTRUCTOR args or 9
@@ -45,16 +47,16 @@ module.exports = Matrix3 =
       m01 = m[1]
       m02 = m[2]
       m12 = m[5]
-
+      
       m[1] = m[3]
       m[2] = m[6]
       m[3] = m01
       m[5] = m[7]
       m[6] = m02
       m[7] = m12
-
-      return mat
-
+      
+      return m
+      
     out[0] = mat[0]
     out[1] = mat[3]
     out[2] = mat[6]
@@ -64,17 +66,17 @@ module.exports = Matrix3 =
     out[6] = mat[2]
     out[7] = mat[5]
     out[8] = mat[8]
-
+    
     return out
-
+  
   toMatrix4: (m, out) ->
-    out = Matrix4.create() unless out
+    out ?= Matrix4.create()
     
     out[0] = m[0]
     out[1] = m[1]
     out[2] = m[2]
     out[3] = 0
-  
+    
     out[4]  = m[3]
     out[5]  = m[4]
     out[6]  = m[5]

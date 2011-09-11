@@ -15,27 +15,26 @@
     M::::::M               M::::::M a::::::::::aa:::a       tt:::::::::::tth:::::h     h:::::h
     MMMMMMMM               MMMMMMMM  aaaaaaaaaa  aaaa         ttttttttttt  hhhhhhh     hhhhhhh
 
-Geometrical (vector, matrix, quaternion) extensions to JavaScript's "Math" module
+Geometrical (matrix, quaternion, vector) extensions to JavaScript's "Math" module
 
 # Modules
 
-* `Vector2`
-* `Vector3`
 * `Matrix3`
 * `Matrix4`
+* `Vector2`
+* `Vector3`
 * `Quaternion`
 
 # Features
 
-* Works in browsers and node.js
-* Allocation-free at run-time
-* Uses native arrays rather than objects
+* Supports browsers and node.js
+* High-performance (allocation-free, native array)
 * Written in CoffeeScript
 
 # Installation
-    npm install math
+`npm install math`
 
-# Credit
+# Inspiration
   [glMatrix](http://code.google.com/p/glmatrix/) by Tojiro
 
 # Contributors

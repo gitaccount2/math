@@ -13,34 +13,29 @@ module.exports = Quaternion =
     Object.defineProperty q, 'w', get: (=> @[3]), set: ((value) => @[3] = value)
     
     return q
-
+  
   set: (q, out) ->
-    out[0] = q[0]
-    out[1] = q[1]
-    out[2] = q[2]
-    out[3] = q[3]
-
+    [out[0], out[1], out[2], out[3]] = q
+    
     return out
-
+  
   calculateW: (q, out) ->
-    x = q[0]
-    y = q[1]
-    z = q[2]
-
-    if !out or q is out
-      q[3] = -Math.sqrt(Math.abs(1.0 - x*x - y*y - z*z))
+    [x, y, z] = q
+    
+    if not out or q is out
+      q[3] = -Math.sqrt Math.abs 1.0 - x*x - y*y - z*z
       
       return q
-
+    
     out[0] = x
     out[1] = y
     out[2] = z
-    out[3] = -Math.sqrt(Math.abs(1.0 - x*x - y*y - z*z))
-
+    out[3] = -Math.sqrt Math.abs 1.0 - x*x - y*y - z*z
+    
     return out
 
   inverse: (q, out) ->
-    if !out or q is out
+    if not out or q is out
       q[0] *= 1
       q[1] *= 1
       q[2] *= 1
@@ -55,20 +50,14 @@ module.exports = Quaternion =
     return out
   
   length: (q) ->
-    x = q[0]
-    y = q[1]
-    z = q[2]
-    w = q[3]
+    [x, y, z, w] = q
 
     return Math.sqrt x * x + y * y + z * z + w * w
 
   normalize: (q, out) ->
     out ?= q
     
-    x = q[0]
-    y = q[1]
-    z = q[2]
-    w = q[3]
+    [x, y, z, w] = q
 
     magnitude = Math.sqrt x * x + y * y + z * z + w * w
 
@@ -91,15 +80,8 @@ module.exports = Quaternion =
   multiply: (a, b, out) ->
     out ?= a
     
-    a_x = a[0]
-    a_y = a[1]
-    a_z = a[2]
-    a_w = a[3]
-    
-    b_x = b[0]
-    b_y = b[1]
-    b_z = b[2]
-    b_w = b[3]
+    [a_x, a_y, a_z, a_w] = a
+    [b_x, b_y, b_z, b_w] = b
     
     out[0] = a_x * b_w + a_w * b_x + a_y * b_z - a_z * b_y
     out[1] = a_y * b_w + a_w * b_y + a_z * b_x - a_x * b_z
@@ -111,14 +93,9 @@ module.exports = Quaternion =
   multiplyVector3: (q, v, out) ->
     out ?= v
     
-    x = v[0]
-    y = v[1]
-    z = v[2]
+    [x, y, z] = v
 
-    qx = q[0]
-    qy = q[1]
-    qz = q[2]
-    qw = q[3]
+    [qx, qy, qz, qw] = q
 
     ix =  qw * x + qy * z - qz * y
     iy =  qw * y + qz * x - qx * z
@@ -133,16 +110,13 @@ module.exports = Quaternion =
 
   toMatrix3: (q, out) ->
     out ?= Matrix3.create()
-
-    x = q[0]
-    y = q[1]
-    z = q[2]
-    w = q[3]
-
+    
+    [x, y, z, w] = q
+    
     x2 = x + x
     y2 = y + y
     z2 = z + z
-
+    
     xx = x * x2
     xy = x * y2
     xz = x * z2

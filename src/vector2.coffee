@@ -8,20 +8,19 @@ module.exports = Vector2 =
     Object.defineProperty v, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
     
     return v
-    
+  
   set: (v, out) ->
-    out[0] = v[0]
-    out[1] = v[1]
-
+    [out[0], out[1]] = v
+    
     return v
-
+  
   add: (a, b, out) ->
     if not out or a is out
       a[0] += b[0]
       a[1] += b[1]
       
       return a
-      
+    
     out[0] = a[0] + b[0]
     out[1] = a[1] + b[1]
     
@@ -40,7 +39,7 @@ module.exports = Vector2 =
     return out
 
   negate: (v, out) ->
-    out = v unless out
+    out ?= v
     
     out[0] = -v[0]
     out[1] = -v[1]
@@ -58,43 +57,39 @@ module.exports = Vector2 =
     out[1] = v[1] * k
     
     return out
-    
+  
   normalize: (v, out) ->
-    out = v unless out
+    out ?= v
     
-    x = v[0]
-    y = v[1]
+    [x, y] = v
     
     magnitude = Math.sqrt x * x + y * y
     
-    if !magnitude
+    unless magnitude
       out[0] = 0
       out[1] = 0
       return out
-      
+    
     else if magnitude is 1
-      out[0] = x
-      out[1] = y
+      [out[0], out[1]] = v
       return out
-      
-    magnitude = 1 / magnitude
     
-    out[0] = x * magnitude
-    out[1] = y * magnitude
-    
-    return out
-    
+    else
+      magnitude = 1 / magnitude
+      out[0] = x * magnitude
+      out[1] = y * magnitude
+      return out
+  
   length: (v) ->
-    x = v[0]
-    y = v[1]
+    [x, y] = v
     
-    return Math.sqrt x * x + y * y
-    
+    Math.sqrt x * x + y * y
+  
   dot: (a, b) ->
     a[0] * b[0] + a[1] * b[1]
-    
+  
   direction: (a, b, out) ->
-    out = a unless out
+    out ?= a
     
     x = a[0] - b[0]
     y = a[1] - b[1]

@@ -107,45 +107,22 @@ module.exports = Matrix4 =
     return out
 
   determinant: (m)->
-    a00 = m[0]
-    a01 = m[1]
-    a02 = m[2]
-    a03 = m[3]
-    a10 = m[4]
-    a11 = m[5]
-    a12 = m[6]
-    a13 = m[7]
-    a20 = m[8]
-    a21 = m[9]
-    a22 = m[10]
-    a23 = m[11]
-    a30 = m[12]
-    a31 = m[13]
-    a32 = m[14]
-    a33 = m[15]
+    [a01, a02, a03, a10, a11, a12, a13, a20, a21, a22, a23, a30, a31, a32, a33] = m
     
-    return	a30*a21*a12*a03 - a20*a31*a12*a03 - a30*a11*a22*a03 + a10*a31*a22*a03 + a20*a11*a32*a03 - a10*a21*a32*a03 - a30*a21*a02*a13 + a20*a31*a02*a13 + a30*a01*a22*a13 - a00*a31*a22*a13 - a20*a01*a32*a13 + a00*a21*a32*a13 + a30*a11*a02*a23 - a10*a31*a02*a23 - a30*a01*a12*a23 + a00*a31*a12*a23 + a10*a01*a32*a23 - a00*a11*a32*a23 - a20*a11*a02*a33 + a10*a21*a02*a33 + a20*a01*a12*a33 - a00*a21*a12*a33 - a10*a01*a22*a33 + a00*a11*a22*a33
-
+    return (
+      a30 * a21 * a12 * a03 - a20 * a31 * a12 * a03 - a30 * a11 * a22 * a03 + a10 * a31 * a22 * a03 +
+      a20 * a11 * a32 * a03 - a10 * a21 * a32 * a03 - a30 * a21 * a02 * a13 + a20 * a31 * a02 * a13 +
+      a30 * a01 * a22 * a13 - a00 * a31 * a22 * a13 - a20 * a01 * a32 * a13 + a00 * a21 * a32 * a13 +
+      a30 * a11 * a02 * a23 - a10 * a31 * a02 * a23 - a30 * a01 * a12 * a23 + a00 * a31 * a12 * a23 +
+      a10 * a01 * a32 * a23 - a00 * a11 * a32 * a23 - a20 * a11 * a02 * a33 + a10 * a21 * a02 * a33 +
+      a20 * a01 * a12 * a33 - a00 * a21 * a12 * a33 - a10 * a01 * a22 * a33 + a00 * a11 * a22 * a33
+    )
+  
   inverse: (m, out) ->
-    out = mat unless out
-
-    a00 = mat[0]
-    a01 = mat[1]
-    a02 = mat[2]
-    a03 = mat[3]
-    a10 = mat[4]
-    a11 = mat[5]
-    a12 = mat[6]
-    a13 = mat[7]
-    a20 = mat[8]
-    a21 = mat[9]
-    a22 = mat[10]
-    a23 = mat[11]
-    a30 = mat[12]
-    a31 = mat[13]
-    a32 = mat[14]
-    a33 = mat[15]
-
+    out ?= m
+    
+    [a01, a02, a03, a10, a11, a12, a13, a20, a21, a22, a23, a30, a31, a32, a33] = m
+    
     b00 = a00 * a11 - a01 * a10
     b01 = a00 * a12 - a02 * a10
     b02 = a00 * a13 - a03 * a10
@@ -158,9 +135,9 @@ module.exports = Matrix4 =
     b09 = a21 * a32 - a22 * a31
     b10 = a21 * a33 - a23 * a31
     b11 = a22 * a33 - a23 * a32
-
+    
     inverse_determinant = 1 / (b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06)
-
+    
     out[0]  = ( a11 * b11 - a12 * b10 + a13 * b09) * inverse_determinant
     out[1]  = (-a01 * b11 + a02 * b10 - a03 * b09) * inverse_determinant
     out[2]  = ( a31 * b05 - a32 * b04 + a33 * b03) * inverse_determinant
@@ -181,7 +158,7 @@ module.exports = Matrix4 =
     return out
 
   toRotationMat: (m, out)->
-    out = Matrix4.create() unless out
+    out ?= Matrix4.create()
 
     out[0]  = m[0]
     out[1]  = m[1]
@@ -203,7 +180,7 @@ module.exports = Matrix4 =
     return out
 
   toMatrix3: (m, out) ->
-    out = Matrix3.create() unless out
+    out ?= Matrix3.create()
 
     out[0] = m[0]
     out[1] = m[1]
@@ -227,17 +204,17 @@ module.exports = Matrix4 =
     a20 = m[8]
     a21 = m[9]
     a22 = m[10]
-
+    
     b01 =  a22 * a11 - a12 * a21
     b11 = -a22 * a10 + a12 * a20
     b21 =  a21 * a10 - a11 * a20
-
+    
     determinant = a00 * b01 + a01 * b11 + a02 * b21
     unless determinant then return
     inverse_determinant = 1 / determinant
-
-    out = Matrix3.create() unless out
-
+    
+    out ?= Matrix3.create()
+    
     out[0] = b01 * inverse_determinant
     out[1] = (-a22 * a01 + a02 * a21) * inverse_determinant
     out[2] = ( a12 * a01 - a02 * a11) * inverse_determinant
@@ -247,11 +224,11 @@ module.exports = Matrix4 =
     out[6] = b21                      * inverse_determinant
     out[7] = (-a21 * a00 + a01 * a20) * inverse_determinant
     out[8] = ( a11 * a00 - a01 * a10) * inverse_determinant
-
+    
     return out
 
   multiply: (a, b, out)->
-    out = a unless out
+    out ?= a
 
     a00 = a[0]
     a01 = a[1]
@@ -309,9 +286,7 @@ module.exports = Matrix4 =
   multiplyVector3: (m, v, out) ->
     out ?= v
     
-    x = v[0]
-    y = v[1]
-    z = v[2]
+    [x, y, z] = v
     
     out[0] = m[0] * x + m[4] * y + m[8]  * z + m[12]
     out[1] = m[1] * x + m[5] * y + m[9]  * z + m[13]
@@ -322,10 +297,7 @@ module.exports = Matrix4 =
   multiplyVector4: (m, v, out) ->
     out ?= v
     
-    x = vec[0]
-    y = vec[1]
-    z = vec[2]
-    w = vec[3]
+    [x, y, z, w] = v
     
     out[0] = m[0] * x + m[4] * y + m[8]  * z + m[12] * w
     out[1] = m[1] * x + m[5] * y + m[9]  * z + m[13] * w
@@ -335,9 +307,7 @@ module.exports = Matrix4 =
     return out
   
   translate: (m, v, out) ->
-    x = v[0]
-    y = v[1]
-    z = v[2]
+    [x, y, z] = v
     
     if not out or m is out
       m[12] = m[0] * x + m[4] * y + m[8]  * z + m[12]
@@ -346,7 +316,7 @@ module.exports = Matrix4 =
       m[15] = m[3] * x + m[7] * y + m[11] * z + m[15]
 
       return m
-
+    
     a00 = m[0]
     a01 = m[1]
     a02 = m[2]
@@ -406,17 +376,17 @@ module.exports = Matrix4 =
     out[1]  = m[1]  * x
     out[2]  = m[2]  * x
     out[3]  = m[3]  * x
-
+    
     out[4]  = m[4]  * y
     out[5]  = m[5]  * y
     out[6]  = m[6]  * y
     out[7]  = m[7]  * y
-
+    
     out[8]  = m[8]  * z
     out[9]  = m[9]  * z
     out[10] = m[10] * z
     out[11] = m[11] * z
-
+    
     out[12] = m[12]
     out[13] = m[13]
     out[14] = m[14]
@@ -425,9 +395,7 @@ module.exports = Matrix4 =
     return dest
 
   rotate: (m, angle, axis, out) ->
-    x = axis[0]
-    y = axis[1]
-    z = axis[2]
+    [x, y, z] = axis
 
     magnitude = Math.sqrt x * x + y * y + z * z
     return unless magnitude
@@ -436,7 +404,7 @@ module.exports = Matrix4 =
       x *= magnitude
       y *= magnitude
       z *= magnitude
-      
+    
     s = Math.sin angle
     c = Math.cos angle
     t = 1 - c
@@ -445,10 +413,12 @@ module.exports = Matrix4 =
     a01 = m[1]
     a02 = m[2]
     a03 = m[3]
+    
     a10 = m[4]
     a11 = m[5]
     a12 = m[6]
     a13 = m[7]
+    
     a20 = m[8]
     a21 = m[9]
     a22 = m[10]
@@ -534,7 +504,7 @@ module.exports = Matrix4 =
     m01 = m[1]
     m02 = m[2]
     m03 = m[3]
-
+    
     m20 = m[8]
     m21 = m[9]
     m22 = m[10]
@@ -551,12 +521,12 @@ module.exports = Matrix4 =
       out[13] = m[13]
       out[14] = m[14]
       out[15] = m[15]
-
+    
     out[0]  = m00 * c + m20 * -s
     out[1]  = m01 * c + m21 * -s
     out[2]  = m02 * c + m22 * -s
     out[3]  = m03 * c + m23 * -s
-
+    
     out[8]  = m00 * s + m20 *  c
     out[9]  = m01 * s + m21 *  c
     out[10] = m02 * s + m22 *  c
@@ -567,17 +537,17 @@ module.exports = Matrix4 =
   rotateZ: (m, angle, out) ->
     s = Math.sin angle
     c = Math.cos angle
-
-    m00 = m[0]
-    m01 = m[1]
-    m02 = m[2]
-    m03 = m[3]
-
-    m10 = m[4]
-    m11 = m[5]
-    m12 = m[6]
-    m13 = m[7]
-
+    
+    a00 = mat[0]
+    a01 = mat[1]
+    a02 = mat[2]
+    a03 = mat[3]
+    
+    a10 = mat[4]
+    a11 = mat[5]
+    a12 = mat[6]
+    a13 = mat[7]
+    
     unless out then out = m
     else if m isnt out
       out[8]  = m[8]
@@ -589,12 +559,11 @@ module.exports = Matrix4 =
       out[13] = m[13]
       out[14] = m[14]
       out[15] = m[15]
-
+    
     out[0] = m00 *  c + m10 * s
     out[1] = m01 *  c + m11 * s
     out[2] = m02 *  c + m12 * s
     out[3] = m03 *  c + m13 * s
-
     out[4] = m00 * -s + m10 * c
     out[5] = m01 * -s + m11 * c
     out[6] = m02 * -s + m12 * c
@@ -603,12 +572,12 @@ module.exports = Matrix4 =
     return out
 
   frustum: (left, right, bottom, top, near, far, out) ->
-    out = Matrix4.create() unless out
+    out ?= Matrix4.create()
 
     rl = right - left
     tb = top   - bottom
     fn = far   - near
-
+    
     out[0]  =  (near * 2) / rl
     out[1]  =  0
     out[2]  =  0
@@ -629,13 +598,13 @@ module.exports = Matrix4 =
     return out
 
   perspective: (fov, aspect, near, far, out) ->
-    top = near * Math.tan(fov * Math.PI / 360)
+    top = near * Math.tan fov * Math.PI / 360
     right = top * aspect
 
     return Matrix4.frustum -right, right, -top, top, near, far, out
 
   ortho: (left, right, bottom, top, near, far, out) ->
-    out = Matrix4.create() unless out
+    out ?= Matrix4.create()
 
     rl = right - left
     tb = top   - bottom
@@ -661,61 +630,58 @@ module.exports = Matrix4 =
     return dest
 
   lookAt: (eye, center, up, out) ->
-    out = Matrix4.create() unless out
-
-    eye_x = eye[0]
-    eye_y = eye[1]
-    eye_z = eye[2]
-
-    up_x = up[0]
-    up_y = up[1]
-    up_z = up[2]
-
-    center_x = center[0]
-    center_y = center[1]
-    center_z = center[2]
-
-    if eye_x is center_x and eye_y is center_y and eye_z is center_z
-      return Matrix4.identity out
-
-    z0 = eye_x - center[0]
-    z1 = eye_y - center[1]
-    z2 = eye_z - center[2]
-
-    magnitude = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2)
-
+    out ?= Matrix4.create()
+    
+    [eye_x, eye_y, eye_z] = eye
+    
+    [up_x, up_y, up_z] = up
+    
+    [center_x, center_y, center_z] = center
+    
+    if (eye_x is center_x) and (eye_y is center_y) and (eye_z is center_z) then return Matrix4.identity out
+    
+    z0 = eye_x - center_x
+    z1 = eye_y - center_y
+    z2 = eye_z - center_z
+    
+    magnitude = 1 / Math.sqrt z0 * z0 + z1 * z1 + z2 * z2
+    
     z0 *= magnitude
     z1 *= magnitude
     z2 *= magnitude
-
+    
     x0 = up_y * z2 - up_z * z1
     x1 = up_z * z0 - up_x * z2
     x2 = up_x * z1 - up_y * z0
-
+    
     magnitude = Math.sqrt x0 * x0 + x1 * x1 + x2 * x2
-
+    
     unless magnitude
       x0 = 0
       x1 = 0
       x2 = 0
+    
     else
       magnitude = 1 / magnitude
+      
       x0 *= magnitude
       x1 *= magnitude
       x2 *= magnitude
-
+    
     y0 = z1 * x2 - z2 * x1
     y1 = z2 * x0 - z0 * x2
     y2 = z0 * x1 - z1 * x0
-
+    
     magnitude = Math.sqrt y0 * y0 + y1 * y1 + y2 * y2
-
-    if !magnitude
+    
+    unless magnitude
       y0 = 0
       y1 = 0
       y2 = 0
+    
     else
       magnitude = 1 / magnitude
+      
       y0 *= magnitude
       y1 *= magnitude
       y2 *= magnitude
