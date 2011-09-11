@@ -1,17 +1,15 @@
-Vector3 =
+CONSTRUCTOR = Float32Array or Array
+
+module.exports = Vector3 =
   create: (args) ->
-    v = new Math.ARRAY_TYPE args or 3
+    v = new CONSTRUCTOR args or 3
     
-    v.__defineGetter__ 'x', -> @[0]
-    v.__defineGetter__ 'y', -> @[1]
-    v.__defineGetter__ 'z', -> @[2]
-    
-    v.__defineSetter__ 'x', (value) -> @[0] = value
-    v.__defineSetter__ 'y', (value) -> @[1] = value
-    v.__defineSetter__ 'z', (value) -> @[2] = value
+    Object.defineProperty v, 'x', get: (=> @[0]), set: ((value) => @[0] = value)
+    Object.defineProperty v, 'y', get: (=> @[1]), set: ((value) => @[1] = value)
+    Object.defineProperty v, 'z', get: (=> @[2]), set: ((value) => @[2] = value)
     
     return v
-
+  
   set: (v, out) ->
     out[0] = v[0]
     out[1] = v[1]
@@ -47,7 +45,7 @@ Vector3 =
     return out
 
   negate: (v, out) ->
-    out = v unless out
+    out ?= v
 
     out[0] = -v[0]
     out[1] = -v[1]
@@ -70,7 +68,7 @@ Vector3 =
     return out
 
   normalize: (v, out) ->
-    out = v unless out
+    out ?= v
 
     x = v[0]
     y = v[1]
@@ -101,7 +99,7 @@ Vector3 =
     return out
 
   cross: (a, b, out) ->
-    out = v unless out
+    out ?= v
 
     a_x = a[0]
     a_y = a[1]
@@ -128,7 +126,7 @@ Vector3 =
     a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 
   direction: (a, b, out) ->
-    out = a unless out
+    out ?= a
 
     x = a[0] - b[0]
     y = a[1] - b[1]
@@ -149,5 +147,12 @@ Vector3 =
     out[2] = z * magnitude
 
     return out
+  
+  lerp: (a, b, bias, out) ->
+    out ?= a
     
-if module?.exports? then module.exports = Vector3 else @Math.Vector3 = Vector3
+    out[0] = a[0] + bias * (b[0] - a[0])
+    out[1] = a[1] + bias * (b[1] - a[1])
+    out[2] = a[2] + bias * (b[2] - a[2])
+    
+    return out

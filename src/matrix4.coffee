@@ -1,42 +1,25 @@
-# ARRAY_TYPE = if Float32Array? then Float32Array else Array
+CONSTRUCTOR = Float32Array or Array
 
-Matrix4 =
+module.exports = Matrix4 =
   create: (args) ->
-    m = new Array args or 16
+    m = new CONSTRUCTOR args or 16
     
-    m.__defineGetter__ 'm00', -> @[0]
-    m.__defineGetter__ 'm01', -> @[1]
-    m.__defineGetter__ 'm02', -> @[2]
-    m.__defineGetter__ 'm03', -> @[3]
-    m.__defineGetter__ 'm10', -> @[4]
-    m.__defineGetter__ 'm11', -> @[5]
-    m.__defineGetter__ 'm12', -> @[6]
-    m.__defineGetter__ 'm13', -> @[7]
-    m.__defineGetter__ 'm20', -> @[8]
-    m.__defineGetter__ 'm21', -> @[9]
-    m.__defineGetter__ 'm22', -> @[10]
-    m.__defineGetter__ 'm23', -> @[11]
-    m.__defineGetter__ 'm30', -> @[12]
-    m.__defineGetter__ 'm31', -> @[13]
-    m.__defineGetter__ 'm32', -> @[14]
-    m.__defineGetter__ 'm33', -> @[15]
-    
-    m.__defineSetter__ 'm00', (value) -> @[0]  = value
-    m.__defineSetter__ 'm01', (value) -> @[1]  = value
-    m.__defineSetter__ 'm02', (value) -> @[2]  = value
-    m.__defineSetter__ 'm03', (value) -> @[3]  = value
-    m.__defineSetter__ 'm10', (value) -> @[4]  = value
-    m.__defineSetter__ 'm11', (value) -> @[5]  = value
-    m.__defineSetter__ 'm12', (value) -> @[6]  = value
-    m.__defineSetter__ 'm13', (value) -> @[7]  = value
-    m.__defineSetter__ 'm20', (value) -> @[8]  = value
-    m.__defineSetter__ 'm21', (value) -> @[9]  = value
-    m.__defineSetter__ 'm22', (value) -> @[10] = value
-    m.__defineSetter__ 'm23', (value) -> @[11] = value
-    m.__defineSetter__ 'm30', (value) -> @[12] = value
-    m.__defineSetter__ 'm31', (value) -> @[13] = value
-    m.__defineSetter__ 'm32', (value) -> @[14] = value
-    m.__defineSetter__ 'm33', (value) -> @[15] = value
+    Object.defineProperty m, 'm00', get: (=> @[0]),  set: (=> @[0]  = value)
+    Object.defineProperty m, 'm01', get: (=> @[1]),  set: (=> @[1]  = value)
+    Object.defineProperty m, 'm02', get: (=> @[2]),  set: (=> @[2]  = value)
+    Object.defineProperty m, 'm03', get: (=> @[3]),  set: (=> @[3]  = value)
+    Object.defineProperty m, 'm10', get: (=> @[4]),  set: (=> @[4]  = value)
+    Object.defineProperty m, 'm11', get: (=> @[5]),  set: (=> @[5]  = value)
+    Object.defineProperty m, 'm12', get: (=> @[6]),  set: (=> @[6]  = value)
+    Object.defineProperty m, 'm13', get: (=> @[7]),  set: (=> @[7]  = value)
+    Object.defineProperty m, 'm20', get: (=> @[8]),  set: (=> @[8]  = value)
+    Object.defineProperty m, 'm21', get: (=> @[9]),  set: (=> @[9]  = value)
+    Object.defineProperty m, 'm22', get: (=> @[10]), set: (=> @[10] = value)
+    Object.defineProperty m, 'm23', get: (=> @[11]), set: (=> @[11] = value)
+    Object.defineProperty m, 'm30', get: (=> @[12]), set: (=> @[12] = value)
+    Object.defineProperty m, 'm31', get: (=> @[13]), set: (=> @[13] = value)
+    Object.defineProperty m, 'm32', get: (=> @[14]), set: (=> @[14] = value)
+    Object.defineProperty m, 'm33', get: (=> @[15]), set: (=> @[15] = value)
     
     return m
 
@@ -324,38 +307,38 @@ Matrix4 =
     return out
 
   multiplyVector3: (m, v, out) ->
-    out = v unless out
-
+    out ?= v
+    
     x = v[0]
     y = v[1]
     z = v[2]
-
+    
     out[0] = m[0] * x + m[4] * y + m[8]  * z + m[12]
     out[1] = m[1] * x + m[5] * y + m[9]  * z + m[13]
     out[2] = m[2] * x + m[6] * y + m[10] * z + m[14]
-
+    
     return out
-
+  
   multiplyVector4: (m, v, out) ->
-    out = v unless out
-
+    out ?= v
+    
     x = vec[0]
     y = vec[1]
     z = vec[2]
     w = vec[3]
-
+    
     out[0] = m[0] * x + m[4] * y + m[8]  * z + m[12] * w
     out[1] = m[1] * x + m[5] * y + m[9]  * z + m[13] * w
     out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w
     out[4] = m[4] * x + m[7] * y + m[11] * z + m[15] * w
-
+    
     return out
-
+  
   translate: (m, v, out) ->
     x = v[0]
     y = v[1]
     z = v[2]
-
+    
     if not out or m is out
       m[12] = m[0] * x + m[4] * y + m[8]  * z + m[12]
       m[13] = m[1] * x + m[5] * y + m[9]  * z + m[13]
@@ -447,17 +430,17 @@ Matrix4 =
     z = axis[2]
 
     magnitude = Math.sqrt x * x + y * y + z * z
-    unless magnitude then return
+    return unless magnitude
     if magnitude isnt 1
       magnitude = 1 / magnitude
       x *= magnitude
       y *= magnitude
       z *= magnitude
-
+      
     s = Math.sin angle
     c = Math.cos angle
     t = 1 - c
-
+    
     a00 = m[0]
     a01 = m[1]
     a02 = m[2]
@@ -487,7 +470,7 @@ Matrix4 =
       out[13] = m[13]
       out[14] = m[14]
       out[15] = m[15]
-
+    
     out[0] = a00 * b00 + a10 * b01 + a20 * b02
     out[1] = a01 * b00 + a11 * b01 + a21 * b02
     out[2] = a02 * b00 + a12 * b01 + a22 * b02
@@ -519,8 +502,7 @@ Matrix4 =
     m22 = m[10]
     m23 = m[11]
 
-    if not out
-      out = m
+    unless out then out = m
     else if m isnt out
       out[0] = m[0]
       out[1] = m[1]
@@ -756,5 +738,3 @@ Matrix4 =
     out[15] = 1
 
     return out
-
-if module?.exports? then module.exports = Matrix4 else @Math.Matrix4 = Matrix4
