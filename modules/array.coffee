@@ -1,0 +1,1 @@
+module.exports = if Float32Array? then Float32Array else Array

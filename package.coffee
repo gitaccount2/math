@@ -24,10 +24,10 @@ bugs:
   mail: 'math@feisty.co'
   web: 'http://github.com/feisty/math/issues'
 
-main: 'lib/index.js'
+main: 'index.coffee'
 
 scripts:
-  postinstall: 'cake build'
+  # postinstall: 'cake build'
 
 engines:
   node: '~0.4.0'

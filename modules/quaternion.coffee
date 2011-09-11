@@ -1,4 +1,4 @@
-CONSTRUCTOR = Float32Array or Array
+CONSTRUCTOR = require './array'
 
 Matrix3 = require './matrix3'
 Matrix4 = require './matrix4'
@@ -150,9 +150,9 @@ module.exports = Quaternion =
     
     [x, y, z, w] = q
     
-    x2 = x * 2
-    y2 = y * 2
-    z2 = z * 2
+    x2 = x + x
+    y2 = y + y
+    z2 = z + z
     
     xx = x * x2
     xy = x * y2

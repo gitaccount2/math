@@ -1,4 +1,4 @@
-CONSTRUCTOR = Float32Array or Array
+CONSTRUCTOR = require './array'
 
 Matrix4 = require './matrix4'
 

@@ -1,4 +1,4 @@
-CONSTRUCTOR = Float32Array or Array
+CONSTRUCTOR = require './array'
 
 module.exports = Matrix4 =
   create: (args) ->
@@ -22,27 +22,12 @@ module.exports = Matrix4 =
     # Object.defineProperty m, 'm33', get: (=> @[15]), set: (=> @[15] = value)
     
     return m
-
+  
   set: (m, out) ->
-    out[0]  = m[0]
-    out[1]  = m[1]
-    out[2]  = m[2]
-    out[3]  = m[3]
-    out[4]  = m[4]
-    out[5]  = m[5]
-    out[6]  = m[6]
-    out[7]  = m[7]
-    out[8]  = m[8]
-    out[9]  = m[9]
-    out[10] = m[10]
-    out[11] = m[11]
-    out[12] = m[12]
-    out[13] = m[13]
-    out[14] = m[14]
-    out[15] = m[15]
-
+    [out[0], out[1], out[2], out[3], out[4], out[5], out[6], out[7], out[8], out[9], out[10], out[11], out[12], out[13], out[14], out[15]] = m
+    
     return out
-
+  
   identity: (out) ->
     out[0]  = 1
     out[1]  = 0
@@ -350,9 +335,7 @@ module.exports = Matrix4 =
     return out
 
   scale: (m, v, out) ->
-    x = v[0]
-    y = v[1]
-    z = v[2]
+    [x, y, z] = v
 
     if not out or m is out
       m[0]  = x
@@ -628,7 +611,7 @@ module.exports = Matrix4 =
     out[15] = 1
 
     return dest
-
+  
   lookAt: (eye, center, up, out) ->
     out ?= Matrix4.create()
     
