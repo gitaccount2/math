@@ -35,4 +35,4 @@ Geometrical (matrix, quaternion, vector) extensions to JavaScript's "Math" modul
 * Written in CoffeeScript
 
 ### Inspiration
-  [glMatrix](http://code.google.com/p/glmatrix/) by Tojiro
+  [https://github.com/toji/gl-matrix](https://github.com/toji/gl-matrix) by [toji](https://github.com/toji)
